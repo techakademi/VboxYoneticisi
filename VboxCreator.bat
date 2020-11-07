@@ -77,7 +77,7 @@ echo.
 echo Bilgisayarinizin bilgilerini %computername%.log ismiyle %cd%\%computername%.log klasoru altina kopyaladim &
 echo.lutfen bu belgeyi silmeyin, beni bir sonra ki calistirdiginda bu belge sayesinde bilgisayarini &
 echo.tekrar kontrol etmeme gerek kalmayacak.
-timeout 2 > nul
+timeout 4 > nul
 
 
 :Anamenu
@@ -135,6 +135,18 @@ set /p _KlasorOnay= Sanal Makineyi varsayilan klasoru altinda olusturayim mi (E/
 if /i "%_KlasorOnay%" equ "E" goto YuklemeVarsayilanklasor
 if /i "%_KlasorOnay%" equ "H" goto Klasorolustur
 
+:YuklemeVarsayilanklasor
+set /p _Makineadi= Olusturmak istediginiz Vbox VM Makine Adini Belirleyiniz :
+echo.
+if exist "%userprofile%\VirtualBox VMs\%_Makineadi%\%_Makineadi%.vbox" ( echo Bu isimle kayitli bir sanal makine mevcut, lutfen baska bir isim ile olusturunuz.
+goto YuklemeVarsayilanklasor ) else (
+  cd /d "C:\Program Files\Oracle\VirtualBox\" 
+VBoxManage createvm --name %_Makineadi% --ostype "Redhat_64" --register
+echo.
+echo Sanal makine olusturuldu, Simdi yapilandirma islemlerine baslayalim.
+echo.
+goto Sanalmakine
+)
 
 :Klasorolustur
 set /p _OlusturmaKlasoru= Vbox VM Makinenizin olusturulmasini istediginiz (c,e,d:\klasor) formatinda belirleyiniz:
@@ -145,26 +157,13 @@ goto YuklemeOzelklasor
 echo Sanal makineyi olusturma klasorunu belirtmelisiniz.
 pause 1
 
-:YuklemeVarsayilanklasor
-set /p _Makineadi= Olusturmak istediginiz Vbox VM Makine Adini Belirleyiniz :
-echo.
-if exist "%userprofile%\VirtualBox VMs\%_Makineadi%\%_Makineadi%.vbox" (echo Bu isimle kayitli bir sanal makine mevcut, lutfen baska bir isim ile olusturunuz.
-goto YuklemeVarsayilanklasor ) else (
-  cd /d "C:\Program Files\Oracle\VirtualBox\" 
-VBoxManage createvm --name %_Makineadi% --ostype "Redhat_64" --register
-echo.
-echo Sanal makine olusturuldu, Simdi yapilandirma islemlerine baslayalim.
-echo.
-goto Sanalmakine
-)
-
 :YuklemeOzelklasor
 set /p _Makineadi= Olusturmak istediginiz Vbox VM Makine Adini Belirleyiniz :
 echo.
 if exist "%_OlusturmaKlasoru%\%_Makineadi%\%_Makineadi%.vbox" (echo Bu isimle kayitli bir sanal makine mevcut, lutfen baska bir isim ile olusturunuz.
 goto klasorolustur ) else (
   cd /d "C:\Program Files\Oracle\VirtualBox\" 
-VBoxManage createvm --name %_Makineadi% --ostype "Redhat_64" --register --basefolder "%_OlusturmaKlasoru%"
+VBoxManage createvm --name %_Makineadi% --ostype "Redhat_64" --register --basefolder %_OlusturmaKlasoru%
 echo.
 echo Sanal makine "%_OlusturmaKlasoru%" altinda olusturuldu, Simdi yapilandirma islemlerine baslayalim.
 echo.
@@ -454,6 +453,7 @@ echo Gozetimsiz kurulum basladi, ana menuye donuyorum.
 timeout 2 > nul
 goto Anamenu
 
+
 :Klonla
 echo.
 echo kurulu Sanal makineleri listeliyorum 
@@ -462,6 +462,7 @@ vboxmanage list vms
 echo.
 set /p _klon= klonlamak istediginiz makinenin adini giriniz:
 echo.
+if not exist 
 set /p _klonadet= ("%_klon%") isimli makineden kac adet klonlamak istersiniz:
 echo.
 cd /d "C:\Program Files\Oracle\VirtualBox\"
@@ -516,13 +517,37 @@ if /i "%_Info%" equ "H" goto end
 echo.
 goto end
 
-
 :DisKlasorolustur
+echo.
 set /p _DisKlasor= Vbox VM Makinenizin disari aktarma klasorunu (c,e,d:\klasor\) formatinda belirleyiniz:
-if "%_DisKlasor%"=="" goto hata
+
+if "%_DisKlasor%"=="" goto hata (
+
+) else (
+    
+    if not exist %_DisKlasor% goto Klonklasor
+)
 echo.
 timeout 2 > nul
+
+:Klonklasor
+if exist %_DisKlasor% goto Klasorhata (
+   
+) else (
+
+    mkdir %_DisKlasor%
+)
+echo.
+echo %_DisKlasor% basarili bir sekilde olusturuldu.
 goto Disaaktar
+
+:Klasorhata
+echo %_DisKlasor% adinda bir klasor mevcut.
+set /p _Klasor= Bu klasor'u kullanmak istermisiniz (E/H?)
+if /i "%_Klasor%" equ "E" goto Disaaktar
+if /i "%_Klasor%" equ "H" echo Sizi klasor olusturma bolumune goturuyorum & goto DisKlasorolustur
+
+
 :hata
 echo Sanal makine icin dis aktarma klasorunu belirtmelisiniz.
 goto DisKlasorolustur
@@ -532,6 +557,8 @@ echo.
 echo kurulu Sanal makineleri listeliyorum 
 cd /d "C:\Program Files\Oracle\VirtualBox\"
 vboxmanage list vms
+echo.
+echo.
 set /p _Disaaktar= Disa aktarmak istediginiz sanal makinenin adini giriniz: 
 echo.
 echo.
@@ -540,23 +567,30 @@ echo.
 dir %_DisKlasor%*.ova
 echo.
 echo.
-if exist "%_DisKlasor%%_Disaaktar%.ova" (echo Bu klasor altinda %_Disaaktar%.ova isminde export edilmis bir sanal makine mevcut, lutfen baska bir isim ile export ediniz.)
-goto Isimlendir
+if exist "%_DisKlasor%\%_Disaaktar%".ova (echo Bu klasor altinda %_Disaaktar%.ova isminde export edilmis bir sanal makine mevcut) & 
+echo.Mevcut makineyi sileibir veya ismini degistirebilirsiniz. & 
+echo.Hayir'i secerseniz isim degistirme bolumune gecersiniz.
+if not exist "%_DisKlasor%\%_Disaaktar%".ova goto isimdegistir
 echo.
+set /p _Silmi= %_Disaaktar%.ova isimli makineyi silmek istermisiniz (E/H)? & 
+if /i "%_Silmi%" equ "E" del "%_DisKlasor%"\"%_Disaaktar%".ova 
+if /i "%_Silmi%" equ "H" goto isimdegistir
 
-:Isimlendir
-set /p _Isimlendir= Disa aktarmak istediginiz sanal makinenin yeni adini giriniz:
-echo.
+:isimdegistir
+set /p _Isimdegistir= %_Disaaktar%.ova isimli makinenin yeni ismini igriniz:
+rename %_DisKlasor%%_Disaaktar%.ova  %_Isimdegistir%.ova
 cd /d "C:\Program Files\Oracle\VirtualBox\"
-vboxmanage export %_Disaaktar% -o %_DisKlasor%\%_Isimlendir%.ova
+vboxmanage export %_Disaaktar% -o %_DisKlasor%\%_Disaaktar%.ova
 echo.
-echo %_Disaaktar% isimli sanal makine basarili bir sekilde %_DisKlasor%%_Isimlendir%.ova olarak disari aktarildi.
+echo %_Disaaktar% isimli sanal makine basarili bir sekilde %_DisKlasor%%_Isimdegistir%.ova olarak disari aktarildi.
+echo.
+echo.
+dir %_DisKlasor%*.ova
 echo.
 echo Kurulu Sanal makinelerin son hali:
 echo.
 vboxmanage list vms
-
-cd /d "E:\VirtualBoxCreator\"
+echo.
 
 timeout 3 > nul
 echo.
@@ -586,21 +620,21 @@ echo.
 echo %_DisKlasor% altinda mevcut Sanal makineleri listeliyorum 
 dir %_DisKlasor%*.ova
 echo.
+
+:mevcutisim
 set /p _Iceaktar= Ice aktarmak istediginiz sanal makinenin adini ("makineadi.ova") seklinde giriniz: 
 echo.
 echo.
 cd /d "C:\Program Files\Oracle\VirtualBox\"
 vboxmanage import %_DisKlasor%%_Iceaktar% 
 echo.
-echo %_Iceaktar% isimli sanal makine basarili bir sekilde %_DisKlasor%%_Iceaktar% olarak ice aktarildi.
+echo %_Iceaktar% isimli sanal makine basarili bir sekilde %_Iceaktar% olarak ice aktarildi.
 echo.
 echo Kurulu Sanal makinelerin son hali:
 echo.
 vboxmanage list vms
-
-cd /d "E:\VirtualBoxCreator\"
-
 timeout 3 > nul
+echo.
 echo.
 set /p _Anadon= Anamenuye donmek istermisiniz (E/H)?:
 if /i "%_Anadon%" equ "E" goto Anamenu
