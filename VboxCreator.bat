@@ -462,7 +462,6 @@ vboxmanage list vms
 echo.
 set /p _klon= klonlamak istediginiz makinenin adini giriniz:
 echo.
-if not exist 
 set /p _klonadet= ("%_klon%") isimli makineden kac adet klonlamak istersiniz:
 echo.
 cd /d "C:\Program Files\Oracle\VirtualBox\"
@@ -567,23 +566,61 @@ echo.
 dir %_DisKlasor%*.ova
 echo.
 echo.
-if exist "%_DisKlasor%\%_Disaaktar%".ova (echo Bu klasor altinda %_Disaaktar%.ova isminde export edilmis bir sanal makine mevcut) & 
-echo.Mevcut makineyi sileibir veya ismini degistirebilirsiniz. & 
-echo.Hayir'i secerseniz isim degistirme bolumune gecersiniz.
-if not exist "%_DisKlasor%\%_Disaaktar%".ova goto isimdegistir
-echo.
-set /p _Silmi= %_Disaaktar%.ova isimli makineyi silmek istermisiniz (E/H)? & 
-if /i "%_Silmi%" equ "E" del "%_DisKlasor%"\"%_Disaaktar%".ova 
-if /i "%_Silmi%" equ "H" goto isimdegistir
+@REM if /i "%_Silmi%" equ "H" goto isimdegistir
 
-:isimdegistir
-set /p _Isimdegistir= %_Disaaktar%.ova isimli makinenin yeni ismini igriniz:
-rename %_DisKlasor%%_Disaaktar%.ova  %_Isimdegistir%.ova
+:Discikar
+if exist "%_DisKlasor%\%_Disaaktar%".ova (echo Bu klasor altinda %_Disaaktar%.ova isminde export edilmis bir sanal makine mevcut) & 
+echo.
+echo.Mevcut makineyi silebilir veya ismini degistirebilirsiniz. & 
+echo.Hayir'i secerseniz isim degistirme bolumune gecersiniz.
+echo.
+set /p _Silmi= %_Disaaktar%.ova isimli makineyi silmek istermisiniz (E/H)?:
+if /i "%_Silmi%" equ "E" goto IsimSil
+if /i "%_Silmi%" equ "H" goto Isimdegistir
+
+:IsimSil
+echo.
+del %_DisKlasor%%_Disaaktar%.ova 
+echo.
+echo.
+echo %_Disaaktar%.ova isimli makine basarili bir sekilde silindi.
+echo.
+timeout 2 > nul
+echo.
+echo Kurulu Sanal makineleri tekrar listeliyorum.
+echo.
+cd /d "C:\Program Files\Oracle\VirtualBox\"
+vboxmanage list vms
+echo.
+echo.
+set /p _Disaaktar= Disa aktarmak istediginiz sanal makinenin adini giriniz: 
+echo.
 cd /d "C:\Program Files\Oracle\VirtualBox\"
 vboxmanage export %_Disaaktar% -o %_DisKlasor%\%_Disaaktar%.ova
 echo.
 echo %_Disaaktar% isimli sanal makine basarili bir sekilde %_DisKlasor%%_Isimdegistir%.ova olarak disari aktarildi.
 echo.
+dir %_DisKlasor%*.ova
+
+timeout 3 > nul
+echo.
+set /p _Info= Anamenuye donmek istermisiniz (E/H)?:
+if /i "%_Info%" equ "E" goto Anamenu
+if /i "%_Info%" equ "H" goto end
+echo.
+goto end
+
+:Isimdegistir
+set /p _Isimdegistir= %_Disaaktar%.ova isimli makinenin yeni ismini giriniz:
+timeout 1 > nul
+ren %_DisKlasor%%_Disaaktar%.ova  %_Isimdegistir%.ova
+cd /d "C:\Program Files\Oracle\VirtualBox\"
+vboxmanage export %_Disaaktar% -o %_DisKlasor%\%_Disaaktar%.ova
+echo.
+echo %_Disaaktar% isimli sanal makine basarili bir sekilde %_DisKlasor%%_Isimdegistir%.ova olarak disari aktarildi.
+echo.
+echo.
+echo Mevcut %_DisKlasor% klasoru listeliyorum.
 echo.
 dir %_DisKlasor%*.ova
 echo.
