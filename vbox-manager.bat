@@ -70,9 +70,12 @@ set /p _Makineadi= Baslat istediginiz Vbox VM Makine Adini Belirleyiniz :
 cd /d "C:\Program Files\Oracle\VirtualBox\"
 VBoxManage startvm "%_Makineadi%" --type headless
 echo.
-echo "%_Makineadi%" Calismaya basladi, ana menuye donuyorum.
+echo "%_Makineadi%" Calismaya basladi.
 timeout 3 > nul
-goto Anamenu
+set /p _Anamenu= Baska Makine Baslatmak istermisin? (H, Ana menuye doner, C, Programdan Cikar.). (E/H/C)?:
+if /i "%_Anamenu%" equ "E" goto MakineBaslat
+if /i "%_Anamenu%" equ "H" goto Anamenu
+if /i "%_Anamenu%" equ "C" goto end
 
 
 :MakineKapat
@@ -88,7 +91,10 @@ VBoxManage controlvm "%_Makineadi%" poweroff
 echo.
 echo "%_Makineadi%" Calismasi durduruldu, ana menuye donuyorum.
 timeout 3 > nul
-goto Anamenu
+set /p _Anamenu= Baska Makine Kapatmak istermisin? (H, Ana menuye doner, C, Programdan Cikar.). (E/H/C)?:
+if /i "%_Anamenu%" equ "E" goto MakineBaslat
+if /i "%_Anamenu%" equ "H" goto Anamenu
+if /i "%_Anamenu%" equ "C" goto end
 
 
 :end
@@ -97,3 +103,4 @@ echo.
 echo Gule Gule...
 echo.
 echo.
+exit
