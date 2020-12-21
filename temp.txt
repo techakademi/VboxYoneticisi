@@ -1,0 +1,32 @@
+:KlonAdDegistir
+echo.
+set /p _klon= Adini degistirmek istediginiz makinenin adini giriniz:
+echo.
+set /p _klonyeniad= ("%_klon%") isimli makinenin yeni adını giriniz:
+echo.
+cd /d "C:\Program Files\Oracle\VirtualBox\"
+VBoxManage modifyvm "%_klon%" --name "%_klonyeniad%"
+echo.
+
+:Isimdegistir
+SETLOCAL ENABLEEXTENSIONS
+set /p _Isimdegistir= %_Disaaktar%.ova isimli makinenin yeni ismini giriniz:
+
+if %_Isimdegistir% == %_Disaaktar% ( 
+  echo Disari aktarmak istediginiz makine ile "%_DisKlasor%%_Disaaktar%.ova" klasoru altinda bulunan
+  echo.makine ismi ile ayni olamaz. Bu makineye farkli bir isim girmelisiniz.
+  timeout 1 > nul
+  goto Isimdegistir
+) else (
+
+timeout 2 > nul
+ren %_DisKlasor%%_Disaaktar%.ova  %_Isimdegistir%.ova
+
+cd /d "C:\Program Files\Oracle\VirtualBox\"
+VBoxManage modifyvm  "%_klon%" --name="%_klon%%%i" --register --mode=all --options=keepallmacs
+
+cd /d "C:\Program Files\Oracle\VirtualBox\"
+VBoxManage storageattach "%_klon%" --storagectl "SATA" --port 1 --medium emptydrive
+
+cd /d "C:\Program Files\Oracle\VirtualBox\"
+VBoxManage modifyvm "%_klon%" --name <newname>
