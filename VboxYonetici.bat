@@ -89,12 +89,11 @@ echo....................................................
 echo.                                                  . 
 echo 1 - Sanal Makine Yonetimi                         .
 echo 2 - Sanal Makine Olustur                          .
-echo 3 - Sanal Makineye Gozetimsiz Yukleme Yap         . 
-echo 4 - Sanal Makine klonla                           .
-echo 5 - Sanal Makine'yi .ova Formatinda disa aktar    .
-echo 6 - Sanal Makine'yi .ova Formatinda ice  aktar    .
-echo 7 - Sanal Makine Sil                              .
-echo 8 - Programdan Cik                                .
+echo 3 - Sanal Makine klonla                           .
+echo 4 - Sanal Makine'yi .ova Formatinda disa aktar    .
+echo 5 - Sanal Makine'yi .ova Formatinda ice  aktar    .
+echo 6 - Sanal Makine Sil                              .
+echo 7 - Programdan Cik                                .
 echo....................................................
 echo.
 
@@ -102,12 +101,11 @@ set /p _ANAM= 1,2,3,4,5,6,7,8 Seceneklerden birini seciniz:
 echo.
 if %_ANAM%==1 goto YonetimMenu
 if %_ANAM%==2 goto YuklemeAdim1
-if %_ANAM%==3 goto KurulumMenu
-if %_ANAM%==4 goto Klonla
-if %_ANAM%==5 goto DisKlasorolustur
-if %_ANAM%==6 goto Klasorgir
-if %_ANAM%==7 goto Sil
-if %_ANAM%==8 goto end
+if %_ANAM%==3 goto Klonla
+if %_ANAM%==4 goto DisKlasorolustur
+if %_ANAM%==5 goto Klasorgir
+if %_ANAM%==6 goto Sil
+if %_ANAM%==7 goto end
 
 :YonetimMenu
 cls
@@ -506,7 +504,7 @@ echo.
  set parola="%_Parola%"
  echo.
  echo Kullaniciniz "%_Parola%" olarak belirlendi.
- goto Menu
+ goto KurulumMenu
 echo.
 )
 
