@@ -97,7 +97,7 @@ echo 7 - Programdan Cik                                .
 echo....................................................
 echo.
 
-set /p _ANAM= 1,2,3,4,5,6,7,8 Seceneklerden birini seciniz:
+set /p _ANAM= 1,2,3,4,5,6,7 Seceneklerden birini seciniz:
 echo.
 if %_ANAM%==1 goto YonetimMenu
 if %_ANAM%==2 goto YuklemeAdim1
