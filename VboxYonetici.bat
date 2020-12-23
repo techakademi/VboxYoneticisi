@@ -425,7 +425,7 @@ echo.
 :Unattend
 echo.
 set /p _Unattend= Sanal makineye isletim sistemini gozetimsiz yuklemek istermisiniz  (E/H)?:
-if /i "%_Unattend%" equ "E" goto Menu
+if /i "%_Unattend%" equ "E" goto KurulumMenu
 if /i "%_Unattend%" equ "H" goto Anamenu
 
 
@@ -464,7 +464,7 @@ echo.
  set sunucuadi="%_SunucuAdi%"
  echo.
  echo Sunucu adi "%_SunucuAdi%" olarak belirlendi.
- goto Menu
+ goto KurulumMenu
 echo.
 )
 
@@ -478,7 +478,7 @@ echo.
  set saatdilimi="%_Saatdilimi%"
  echo.
  echo Sunucu Saatdilimi "%_Saatdilimi%" olarak belirlendi.
- goto Menu
+ goto KurulumMenu
 echo.
 )
 
@@ -492,7 +492,7 @@ echo.
  set kullanici="%_Kullanici%"
  echo.
  echo Kullaniciniz "%_Kullanici%" olarak belirlendi.
- goto Menu
+ goto KurulumMenu
 echo.
 )
 
@@ -533,7 +533,7 @@ echo ISO Konumu     = "%_DVDSURUCU%"
 
 echo.
 set /p _Info= Kurulum bilgilerinde degisiklik yapmak istermisiniz, Hayir'i secerseniz kuruluma basliyacagim (E/H)?:
-if /i "%_Info%" equ "E" goto Menu
+if /i "%_Info%" equ "E" goto KurulumMenu
 if /i "%_Info%" equ "H" goto Unattended
 echo.
 
