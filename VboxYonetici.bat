@@ -4,7 +4,7 @@ echo.
 echo.
 ::Ana Baslangic
 echo ================================
-echo ==== VBOX Olusturucu Droid ===== 
+echo ===== VBOX Yonetici Droid ====== 
 echo ================================
 echo.
 echo.
@@ -84,7 +84,7 @@ timeout 4 > nul
 cls
 echo.
 echo....................................................      
-echo............VBOX Olusturucu Droid Menusu............
+echo............VBOX Yonetici Droid Menusu..............
 echo....................................................
 echo.                                                  . 
 echo 1 - Sanal Makine Yonetimi                         .
