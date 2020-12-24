@@ -554,6 +554,10 @@ goto Anamenu
 
 :Klonla
 echo.
+echo....................................................
+echo...........Sanal Makine Klonlama Bolumu.............
+echo....................................................
+echo.
 echo Kurulu Sanal makineleri listeliyorum 
 cd /d "C:\Program Files\Oracle\VirtualBox\"
 vboxmanage list vms
