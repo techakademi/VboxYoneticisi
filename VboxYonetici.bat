@@ -89,7 +89,7 @@ echo....................................................
 echo.                                                  . 
 echo 1 - Sanal Makine Yonetimi                         .
 echo 2 - Sanal Makine Olustur                          .
-echo 3 - Sanal Makine klonla                           .
+echo 3 - Sanal Makine Klonla                           .
 echo 4 - Sanal Makine'yi .ova Formatinda disa aktar    .
 echo 5 - Sanal Makine'yi .ova Formatinda ice  aktar    .
 echo 6 - Sanal Makine Sil                              .
@@ -135,6 +135,7 @@ if %_Yonetim%==6 goto end
 
 :YNTMMakineListele
 echo.
+cls
 echo....................................................
 echo........Kurulu Sanal makineleri listeliyorum........
 echo....................................................
@@ -151,6 +152,7 @@ if /i "%_Anamenu%" equ "C" goto end
 
 :YNTMCalisanMakineListele
 echo.
+cls
 echo....................................................
 echo.......Calisan Sanal Makineleri listeliyorum........
 echo....................................................
@@ -168,6 +170,7 @@ if /i "%_Anamenu%" equ "C" goto end
 
 :YNTMMakineBaslat
 echo.
+cls
 echo....................................................
 echo...........Sanal Makine Baslatma Bolumu.............
 echo....................................................
@@ -192,6 +195,7 @@ if /i "%_Anamenu%" equ "C" goto end
 
 :YNTMMakineKapat
 echo.
+cls
 echo....................................................
 echo............Sanal Makine Kapatma Bolumu.............
 echo....................................................
@@ -215,6 +219,7 @@ if /i "%_Anamenu%" equ "C" goto end
 ::------------------------------------------------------------------
 :YuklemeAdim1
 echo.
+cls
 echo....................................................
 echo..........Sanal Makine Olusturma Bolumu.............
 echo....................................................
@@ -429,6 +434,7 @@ if /i "%_Unattend%" equ "H" goto Anamenu
 
 :KurulumMenu
 echo.
+cls
 echo....................................
 echo Isletim sistemi secenekler Menusu:.
 echo....................................
@@ -509,6 +515,7 @@ echo.
 )
 
 :Kurulum
+cls
 echo....................................
 echo.......Kuruluma basliyorum..........
 echo....................................
@@ -554,6 +561,7 @@ goto Anamenu
 
 :Klonla
 echo.
+cls
 echo....................................................
 echo...........Sanal Makine Klonlama Bolumu.............
 echo....................................................
@@ -599,6 +607,7 @@ timeout 3 > nul
 :Klonlistele
 echo.
 echo.
+cls
 echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                                           
 echo !   --Dikkat --Dikkat --Dikkat --Dikkat --Dikkat --Dikkat --Dikkat --Dikkat    !
 echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -621,6 +630,7 @@ goto end
 
 :Sil
 echo.
+cls
 echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 echo !--Dikkat --Dikkat --Dikkat --Dikkat!
 echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
