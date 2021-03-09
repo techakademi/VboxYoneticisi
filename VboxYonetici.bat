@@ -232,6 +232,25 @@ for /l %%a in (1,1,5) do (
 ping -n 2 127.0.0.1 > nul
 )
 echo.
+
+:IsletimsistemBelirle
+setlocal enabledelayedexpansion
+echo.
+set isletimtip[0]=Redhat_64
+set isletimtip[1]=Ubuntu_64
+
+echo....................................
+echo   Isletim sistemi tipi Menusu     .
+echo....................................
+echo.                                  .
+echo 0 - Redhat 64                     . 
+echo 1 - Ubuntu 64                     .   
+echo.                                  .
+echo....................................
+echo.
+
+set /p isletimsec=Isletim Sistemi Tipini 0,1 seklinde giriniz:
+echo.
 echo Sanal makineyi kendi varsayilan klasoru altinda, veya kendinizin belirleyecegi bir klasor altinda olusturabilirsiniz.
 echo.
 set /p _KlasorOnay= Sanal Makineyi varsayilan klasoru altinda olusturayim mi (E/H)?:
@@ -244,9 +263,9 @@ echo.
 if exist "%userprofile%\VirtualBox VMs\%_Makineadi%\%_Makineadi%.vbox" ( echo Bu isimle kayitli bir sanal makine mevcut, lutfen baska bir isim ile olusturunuz.
 goto YuklemeVarsayilanklasor ) else (
   cd /d "C:\Program Files\Oracle\VirtualBox\" 
-VBoxManage createvm --name %_Makineadi% --ostype "Redhat_64" --register
+VBoxManage createvm --name %_Makineadi% --ostype !isletimtip[%isletimsec%]! --register
 echo.
-echo Sanal makine olusturuldu, Simdi yapilandirma islemlerine baslayalim.
+echo Sanal makine !isletimtip[%isletimsec%]! olusturuldu, Simdi yapilandirma islemlerine baslayalim.
 echo.
 goto Sanalmakine
 )
@@ -266,7 +285,7 @@ echo.
 if exist "%_OlusturmaKlasoru%\%_Makineadi%\%_Makineadi%.vbox" (echo Bu isimle kayitli bir sanal makine mevcut, lutfen baska bir isim ile olusturunuz.
 goto klasorolustur ) else (
   cd /d "C:\Program Files\Oracle\VirtualBox\" 
-VBoxManage createvm --name %_Makineadi% --ostype "Redhat_64" --register --basefolder %_OlusturmaKlasoru%
+VBoxManage createvm --name %_Makineadi% --ostype "Ubuntu_64" --register --basefolder %_OlusturmaKlasoru%
 echo.
 echo Sanal makine "%_OlusturmaKlasoru%" altinda olusturuldu, Simdi yapilandirma islemlerine baslayalim.
 echo.
